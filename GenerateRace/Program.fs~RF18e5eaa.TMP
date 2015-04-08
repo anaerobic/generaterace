@@ -46,22 +46,21 @@ let generate checkpoints entrants =
 
 let generateSimple = generate 3
 
-let deleteIfExists path = 
-    match File.Exists(path) with
-    | true -> File.Delete(path)
+let deleteIfExists filePath =
+    match File.Exists(filePath) with
+    | true -> File.Delete(filePath)
     | false -> ()
 
-let initFile name = 
-    let filePath = Path.Combine(Environment.CurrentDirectory, name)
-    filePath |> deleteIfExists
-    filePath
+let initFile name =
+    Path.Combine(Environment.CurrentDirectory, name) |> deleteIfExists
+   
 
 [<EntryPoint>]
 let main argv = 
-    let file = initFile "results.json"
-    "Your results are being generated at:" + Environment.NewLine + file
-    |> Console.WriteLine
-    |> ignore
+    let filePath = initFile "results.json"
+    if File.Exists(filePath) then File.Delete(filePath)
+    Console.WriteLine("Your results are being generated at:")
+    Console.WriteLine(filePath)
     match argv with
     | p when p.Length = 2 -> generate (System.Convert.ToInt32(p.[1])) (System.Convert.ToInt32(p.[0]))
     | p when p.Length = 1 -> generateSimple (System.Convert.ToInt32(p.[0]))
@@ -76,6 +75,6 @@ let main argv =
     |> Seq.collect (fun f -> f)
     |> Seq.sortBy (fun f -> f.time)
     |> Seq.map JsonConvert.SerializeObject
-    |> Seq.iter (fun json -> File.AppendAllText(file, json))
+    |> Seq.iter (fun json -> File.AppendAllText(filePath, json))
     |> ignore
     0
