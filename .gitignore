@@ -1,5 +1,7 @@
 *.suo
 *.user
+*.tmp
+*.TMP
 _ReSharper.*
 bin
 obj
