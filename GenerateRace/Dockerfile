@@ -3,8 +3,11 @@ FROM icecrime/fsharp
 COPY . /app
 WORKDIR /app
 ONBUILD ADD . /app
+ONBUILD RUN apt-get update
+ONBUILD RUN apt-get install curl
+ONBUILD RUN curl -L http://nuget.org/nuget.exe -o nuget.exe
+ONBUILD RUN mono nuget.exe restore
 ONBUILD RUN xbuild /p:BuildWithMono="true" /app/GenerateRace.sln
-ONBUILD RUN /usr/bin/fsharpc --out:Program.exe /app/*.fs
 
 CMD []
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/app/bin/Debug/GenerateRace.exe", "5000 5"]
