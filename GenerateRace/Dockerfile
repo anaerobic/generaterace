@@ -1,5 +1,6 @@
 FROM icecrime/fsharp
 
+COPY . /app
 WORKDIR /app
 ONBUILD ADD . /app
 ONBUILD RUN xbuild /p:BuildWithMono="true" /app/GenerateRace.sln
