@@ -1,25 +1,22 @@
 ﻿open Newtonsoft.Json
 open System
 
-// Learn more about F# at http://fsharp.net
-// See the 'F# Tutorial' project for more help.
-
 type entrant = 
     { id : int
-      mph : float 
-      gender: string
-      startAt: TimeSpan
-      age: int}
+      mph : float
+      gender : string
+      startAt : TimeSpan
+      age : int }
 
 type race = 
     { entrant : entrant
       times : seq<TimeSpan> }
-      
+
 type cleanRead = 
     { bib : int
       checkpoint : int
-      gender: string
-      age: int
+      gender : string
+      age : int
       time : TimeSpan }
 
 let anEighth = 1.0 / 8.0
@@ -30,11 +27,12 @@ let toEntrant n =
     let rnd = new Random(n)
     { id = n
       startAt = (rnd.NextDouble() * 5.0) + (rnd.NextDouble() * 5.0) |> TimeSpan.FromMinutes
-      mph = float (rnd.Next(2, 10)) + (rnd.NextDouble() * 2.0 - 1.0) 
-      age = rnd.Next(10,70)
-      gender = match rnd.NextDouble() with
-                | d when d > 0.5 -> "male"
-                | _ -> "female"}
+      mph = float (rnd.Next(2, 10)) + (rnd.NextDouble() * 2.0 - 1.0)
+      age = rnd.Next(10, 70)
+      gender = 
+          match rnd.NextDouble() with
+          | d when d > 0.5 -> "male"
+          | _ -> "female" }
 
 let toRace checkpoints e = 
     let rnd = new Random(e.id)
