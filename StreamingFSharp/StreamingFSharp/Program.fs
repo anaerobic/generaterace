@@ -82,7 +82,6 @@ let main argv =
     let printer = 
         lines
         |> stream
-        |> Observable.timeoutSpan (TimeSpan.FromMilliseconds 3000.0)
         |> Observable.map (fun (group, item) -> 
                { groupName = group
                  bib = item.Bib
