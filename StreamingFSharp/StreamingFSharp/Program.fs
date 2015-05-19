@@ -62,9 +62,18 @@ let groupReads (reads : IObservable<chipRead.Root>) =
     |> Observable.merge gender
     |> Observable.merge genderAge
 
+let tryParseJson x =
+    try
+        let json = chipRead.Parse x
+        Some json
+    with
+        | ex -> None
+
 let stream input = 
     input
-    |> Seq.map chipRead.Parse
+    |> Seq.map tryParseJson
+    |> Seq.filter (fun x -> x.IsSome)
+    |> Seq.map (fun x -> x.Value)
     |> Observable.ofSeqOn TaskPoolScheduler.Default
     |> Observable.publish
     |> Observable.refCount
