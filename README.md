@@ -1,5 +1,13 @@
 # generaterace 
 
+execute the following to get it running in Docker:
+
+```shell
+git clone https://github.com/anaerobic/generaterace.git
+cd generaterace
+sudo sh docker-build.sh
+```
+
 usage:
 
 GenerateRace.exe 50000 10 > race50kx10.json
