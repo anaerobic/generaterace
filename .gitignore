@@ -132,3 +132,4 @@ data
 *.log
 node_modules/
 .idea/
+.idea
